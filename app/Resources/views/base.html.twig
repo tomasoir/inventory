@@ -1,13 +1,36 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
+        <title>{% block title %}Inventory{% endblock %} - CRUD</title>
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+       
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="{{ asset('assets/bootstrap/dist/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/bootstrap/dist/css/bootstrap-theme.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/webhome/css/custom.css') }}">
     </head>
     <body>
-        {% block body %}{% endblock %}
+
+        <div id="wrapper">
+            <header id="header">
+              
+            </header>
+            <div class="main-col">
+                {% block body %}{% endblock %}
+            </div>
+            <aside class="sidebar">
+                {% block sidebar %}{% endblock %}
+            </aside>
+            <div id="footer">
+                {% block footer %}
+        
+                {% endblock %}
+            </div>
+        </div>
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>

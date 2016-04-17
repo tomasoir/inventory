@@ -1,0 +1,11 @@
+crud_inventory_homepage:
+    path:     /
+    defaults: { _controller: CRUDInventoryBundle:Default:index }
+
+crud_inventory_edit:
+    path:     /edit
+    defaults: { _controller: CRUDInventoryBundle:Edit:edit }
+
+crud_inventory_add:
+    path:     /add
+    defaults: { _controller: CRUDInventoryBundle:Add:show }

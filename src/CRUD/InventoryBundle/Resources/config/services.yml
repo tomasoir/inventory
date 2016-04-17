@@ -1,0 +1,4 @@
+services:
+#    crud_inventory.example:
+#        class: CRUD\InventoryBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

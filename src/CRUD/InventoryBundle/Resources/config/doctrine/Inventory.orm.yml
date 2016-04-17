@@ -1,0 +1,40 @@
+CRUD\InventoryBundle\Entity\Inventory:
+    type: entity
+    table: null
+    repositoryClass: CRUD\InventoryBundle\Repository\InventoryRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        stock:
+            type: string
+            length: '45'
+        newused:
+            type: string
+            length: '4'
+        make:
+            type: string
+            length: '45'
+        model:
+            type: string
+            length: '45'
+        trim:
+            type: string
+            length: '45'
+        price:
+            type: string
+            length: '100'
+        mainimage:
+            type: string
+            length: '100'
+        image2:
+            type: string
+            length: '100'
+        image3:
+            type: string
+            length: '100'
+
+    lifecycleCallbacks: {  }
