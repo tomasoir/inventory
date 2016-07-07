@@ -1,0 +1,16 @@
+CRUD\InventoryBundle\Entity\Trim:
+    type: entity
+    table: null
+    repositoryClass: CRUD\InventoryBundle\Repository\TrimRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: '255'
+
+    lifecycleCallbacks: {  }

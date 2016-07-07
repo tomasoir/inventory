@@ -12,7 +12,7 @@ CRUD\InventoryBundle\Entity\Inventory:
         stock:
             type: string
             length: '45'
-        newused:
+        newUsed:
             type: string
             length: '4'
         make:
@@ -25,15 +25,8 @@ CRUD\InventoryBundle\Entity\Inventory:
             type: string
             length: '45'
         price:
-            type: string
-            length: '100'
-        mainimage:
-            type: string
-            length: '100'
-        image2:
-            type: string
-            length: '100'
-        image3:
+            type: float
+        mainImage:
             type: string
             length: '100'
 

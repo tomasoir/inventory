@@ -1,11 +1,19 @@
 crud_inventory_homepage:
-    path:     /
-    defaults: { _controller: CRUDInventoryBundle:Default:index }
+    path: /
+    defaults: { _controller: CRUDInventoryBundle:CRUD:show }
 
 crud_inventory_edit:
-    path:     /edit
-    defaults: { _controller: CRUDInventoryBundle:Edit:edit }
+    path: /edit/{id}
+    defaults: { _controller: CRUDInventoryBundle:CRUD:edit }
+    requirements:
+        id:  \d+    
 
 crud_inventory_add:
-    path:     /add
-    defaults: { _controller: CRUDInventoryBundle:Add:show }
+    path: /add
+    defaults: { _controller: CRUDInventoryBundle:CRUD:add }
+
+crud_inventory_del:
+    path: /del/{id}
+    defaults: { _controller: CRUDInventoryBundle:CRUD:delete }
+    requirements:
+        id:  \d+

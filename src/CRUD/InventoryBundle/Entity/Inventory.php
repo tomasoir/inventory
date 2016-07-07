@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\ArrayCollection;
 
+
 /**
  * Inventory
  *
@@ -36,14 +37,20 @@ class Inventory
     /**
      * @var string
      *
-     * @ORM\Column(name="newused", type="string", length=4)
+     * @ORM\Column(name="newUsed", type="string", length=45)
      */
-    private $newused;
+    private $newUsed;
 
-    /**
+      /**
      * @var string
      *
-     * @ORM\Column(name="stock", type="string", length=45)
+     * @ORM\Column(name="stock", type="string", length=4)
+     *
+     * @Assert\Regex(
+     *     pattern="/^[a-z0-9]+$/i",
+     *     htmlPattern = "^[a-zA-Z0-9]+$",
+     *     message="Error: You can use only text & numbers (no whitespaces)"
+     * )
      */
     private $stock;
 
@@ -69,57 +76,43 @@ class Inventory
     private $trim;
 
     /**
-     * @var int
+     * @var float
      *
-     * @ORM\Column(name="price", type="integer")
+     * @ORM\Column(name="price", type="float")
      */
     private $price;
 
-    
+   /**
+     * @Assert\Image(
+     * maxSize="2000000"
+     * )
+     */
+    private $mainImage;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="image2", type="string", length=100)
-     */
-    private $image2="image2";
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="image3", type="string", length=100)
-     */
-    private $image3="image3";
-
-    /**
-     * @Assert\File(maxSize="6000000")
-     */
-    private $mainimage;
-
-
-    private $temp;
-
+    * @var string
+    * image path
+    */
     private $path;
 
-
     /**
-     * Sets mainimage.
+     * Sets mainImage.
      *
-     * @param UploadedFile $mainimage
+     * @param UploadedFile $mainImage
      */
-    public function setMainimage(UploadedFile $mainimage = null)
+    public function setMainImage(UploadedFile $mainImage = null)
     {
-        $this->mainimage = $mainimage;
+        $this->mainImage = $mainImage;
     }
 
     /**
-     * Get mainimage.
+     * Get mainImage.
      *
      * @return UploadedFile
      */
-    public function getMainimage()
+    public function getMainImage()
     {
-        return $this->mainimage;
+        return $this->mainImage;
     }
 
     /**
@@ -133,27 +126,27 @@ class Inventory
     }
 
     /**
-     * Set newused
+     * Set newUsed
      *
-     * @param string $newused
+     * @param string $newUsed
      *
      * @return Inventory
      */
-    public function setNewused($newused)
+    public function setNewUsed($newUsed)
     {
-        $this->newused = $newused;
+        $this->newUsed = $newUsed;
 
         return $this;
     }
 
     /**
-     * Get newused
+     * Get newUsed
      *
      * @return string
      */
-    public function getNewused()
+    public function getNewUsed()
     {
-        return $this->newused;
+        return $this->newUsed;
     }
 
     /**
@@ -255,9 +248,9 @@ class Inventory
     /**
      * Set price
      *
-     * @param integer $price
+     * @param float $price
      *
-     * @return Inventory
+     * @return float
      */
     public function setPrice($price)
     {
@@ -269,7 +262,7 @@ class Inventory
     /**
      * Get price
      *
-     * @return int
+     * @return float
      */
     public function getPrice()
     {
@@ -277,81 +270,33 @@ class Inventory
     }
 
     /**
-     * Set image2
-     *
-     * @param string $image2
-     *
-     * @return Inventory
-     */
-    public function setImage2($image2)
-    {
-        $this->image2 = $image2;
-
-        return $this;
-    }
-
-    /**
-     * Get image2
-     *
-     * @return string
-     */
-    public function getImage2()
-    {
-        return $this->image2;
-    }
-
-    /**
-     * Set image3
-     *
-     * @param string $image3
-     *
-     * @return Inventory
-     */
-    public function setImage3($image3)
-    {
-        $this->image3 = $image3;
-
-        return $this;
-    }
-
-    /**
-     * Get image3
-     *
-     * @return string
-     */
-    public function getImage3()
-    {
-        return $this->image3;
-    }
-
-    /**
      * Show Absolute Path.
      *
-     * @return array
+     * @return string
      */
     public function getAbsolutePath()
     {
         return null === $this->path
             ? $this->getUploadRootDir()
-            : $this->getUploadRootDir().'/'.$this->path;
+            : $this->getUploadRootDir() . '/' . $this->path;
     }
-       
+
     /**
      * Show Upload root dir.
      *
-     * @return array
+     * @return string
      */ 
     protected function getUploadRootDir()
     {
         // the absolute directory path where uploaded
         // documents should be saved
-        return $_SERVER['DOCUMENT_ROOT'].$this->getUploadDir();
+        return $_SERVER['DOCUMENT_ROOT'] . $this->getUploadDir();
     }
 
     /**
      * Show Upload Dir.
      *
-     * @return array
+     * @return string
      */
     public function getUploadDir()
     {
@@ -363,32 +308,54 @@ class Inventory
     /**
      * Show Upload Dir.
      *
-     * @param string $image
+     * @param object $image
      */
-    public function uploadImage($image="")
+    public function uploadImage($image = '')
     {
         // the file property can be empty if the field is not required
-        if (null === $this->getMainimage()) {
-            return;
-        }
-
         if (!empty($image)) {
-            $this->setMainimage($image);
+            $this->setMainImage($image);
         }
-        // use the original file name here but you should
-        // sanitize it at least to avoid any security issues
 
-        // move takes the target directory and then the
-        // target filename to move to
-        $this->getMainimage()->move(
-            $this->getUploadRootDir(),
-            $this->getMainimage()->getClientOriginalName()
-        );
+        if (null === $this->getMainImage()) {
+            return 'Error Empty file' ;
+        }
+      
+        $error = '';
+        $imageFileName = $this->getMainImage();
+        if (is_object($imageFileName) && $imageFileName->getError() == '0') {
+           
+            if ($imageFileName->getClientSize() < 20000000) { // 2mb
+                $originalName = $imageFileName->getClientOriginalName();
+                $nameArray = explode('.' , $originalName);
+                $fileType = $nameArray[1];
+                $validFiletypes = array('jpg', 'jpeg', 'bmp', 'png');
+                
+                if (in_array(strtolower($fileType), $validFiletypes)) {
+                    $this->setMainImage($imageFileName); 
+                    $fileName = date('U') . $this->getMainImage()->getClientOriginalName();
+                    
+                    // move takes the target directory and then the
+                    // target filename to move to
+                    $this->getMainImage()->move(
+                        $this->getUploadRootDir(),
+                        $fileName
+                    );
 
-        // set the path property to the filename where you've saved the file
-        $this->path = $this->getMainimage()->getClientOriginalName();
-        
-        $this->mainimage =  $this->getMainimage()->getClientOriginalName();
+                    // set the path property to the filename where you've saved the file
+                    $this->path = $fileName;
+                    $this->mainImage = $fileName;
+                    
+                } else {
+                    $error = "Erorr Incorrect file type. You can upload only jpg jpeg bmp png";
+                }
+            } else {
+                $error = "Error Max file size 2mb";
+            }
+        } else {
+            $error = "Error. I can't upload file";
+        }
+        return $error;
     }
 
     /**
@@ -398,9 +365,10 @@ class Inventory
      */
     public function removeUploadImage($file)
     {
-        $path = $this->getAbsolutePath();
-        if ($path) {
-            unlink($path.'/'.$file);
+        
+        $filePath = $this->getAbsolutePath() . '/' . $file;
+        if (file_exists($filePath) && !empty($file)) {
+            unlink($filePath);
         }
     }
 }

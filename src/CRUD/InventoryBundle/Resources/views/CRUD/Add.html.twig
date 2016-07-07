@@ -1,15 +1,16 @@
 {% extends 'CRUDInventoryBundle::layout.html.twig' %}
 
 {% block body %}
-    <h1 class="page-title"> Add new Vehicle</h1>
-    <div class="addInfo">{{ addInfo }}</div>
+    <h1 class="page-title"> Add new Vehicle </h1>
+    <div class="error-info">{{ error }}</div>
+    <div class="add-info">{%if addInfo %} New vehicle added {% endif %}</div>
     <form action="add" method="post" enctype="multipart/form-data">
         <div class="row add-vehicle">
             <div class="col-xs-12">
-                {{ form_row(form.mainimage) }}
+                {{ form_row(form.mainImage) }}
             </div>
             <div class="col-xs-12">
-                {{ form_row(form.newused) }}
+                {{ form_row(form.newUsed) }}
             </div>
             <div class="col-xs-12">
                 {{ form_row(form.make) }}
@@ -18,13 +19,21 @@
                 {{ form_row(form.model) }}
             </div>
             <div class="col-xs-12">
-                {{ form_row(form.stock) }}
+                {{ form_label(form.stock) }}
+                {{ form_widget(form.stock) }}
+                <div class="error-form-field">
+                    {{ form_errors(form.stock) }}
+                </div>
             </div>
             <div class="col-xs-12">
                 {{ form_row(form.trim) }}
             </div>
             <div class="col-xs-12">
-                {{ form_row(form.price) }}
+                {{ form_label(form.price) }}
+                {{ form_widget(form.price) }}
+                <div class="error-form-field">
+                    {{ form_errors(form.price) }}
+                </div>
             </div>
 
             <div class="col-xs-12">
